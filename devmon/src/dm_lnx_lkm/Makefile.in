@@ -1,0 +1,25 @@
+obj-m += ${LKM_NAME}.o
+
+${LKM_NAME}-objs := ${LKM_OBJS}
+
+ifndef LINUX_BUILD_DIR
+	LINUX_BUILD_DIR := /lib/modules/$(shell uname -r)/build/
+endif
+
+ifndef TDEVMON_LKM_DIR
+	export TDEVMON_LKM_DIR := $(shell pwd)
+endif
+
+EXTRA_CFLAGS := \
+	-I$(TDEVMON_LKM_DIR)/${DEVMON_INSTALL_LKM_SRC_TO_ROOT}/${DEVMON_INSTALL_INC_SUBDIR} \
+	-fvisibility=hidden \
+	-Wno-parentheses
+
+default:
+	make -C $(LINUX_BUILD_DIR) M=$(PWD) modules
+
+modules_install:
+	make -C $(LINUX_BUILD_DIR) M=$(PWD) modules_install
+
+clean:
+	make -C $(LINUX_BUILD_DIR) M=$(PWD) clean

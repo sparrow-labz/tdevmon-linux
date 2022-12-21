@@ -1,0 +1,14 @@
+obj-m += ${LKM_NAME}.o
+
+${LKM_NAME}-objs := ${LKM_OBJS}
+EXTRA_CFLAGS := -I${CMAKE_CURRENT_LIST_DIR} -I${DEVMON_INC_DIR} -I${GEN_DIR} -fvisibility=hidden -Wno-parentheses
+
+default: prebuild
+	make -C ${MAKE_BUILD_DIR} M=$(PWD) modules
+
+clean:
+	make -C ${MAKE_BUILD_DIR} M=$(PWD) clean
+
+prebuild:
+	cmake ${CMAKE_BINARY_DIR}
+	cp ${CMAKE_CURRENT_LIST_DIR}/*.c ${LKM_BUILD_DIR}

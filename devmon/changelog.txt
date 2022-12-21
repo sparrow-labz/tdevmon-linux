@@ -1,0 +1,327 @@
+version 3.3.10 for Linux (2022-12-15)
+
+  * dm_lnx_lkm: suppress useless warnings that suggest parentheses around binary
+    logical operators
+  * dm_lnx_lkm: ifdef hooking of read_iter/write_iter to support linux kernels
+    older than linux-3.16
+
+................................................................................
+
+version 3.3.9-a for Linux ARM (2022-06-08)
+
+  - dm_lnx_lkm: fix: regression in page protection removal on ARM when
+    CONFIG_ARM_LPAE is undefined (regression introduced in 3.3.9)
+
+................................................................................
+
+version 3.3.9 (2021-03-21)
+
+  + dm_lnx_lkm: support read_iter/write_iter
+  - dm_lnx_lkm: fix: don't hook NULL-entries in file_operations
+  - dm_lnx_lkm: fix: page protection removal on ARM for linux-5.10+
+
+................................................................................
+
+version 3.3.8 (2020-12-09)
+
+  - dm_lnx_lkm: fix: __force_order was removed in linux-5.9.2
+
+................................................................................
+
+version 3.3.7 (2020-10-26)
+
+  * dm_app: turn STDOUT buffering off when monitoring on Windows
+  + package: install dm_MachineIface.h
+  + package: install MSVC10 runtime on Windows
+  * package: use LIBCMT for the MSI action DLL on Windows (MSVC10 runtime might
+    be missing on Windows 10)
+
+................................................................................
+
+version 3.3.6 (2020-07-08)
+
+  - dm_win_sys, dm_lnx_lkm: critical bugfix: wildcard matching routine didn't
+    properly handle empty input string (resulting in opportunistic crashes
+    for unnamed files, e.g. anonymous pipes on windows)
+  - dm_win_sys_core: minor fix: unnecessary to check for m_fileNameFilter in
+    Connection_create
+  - dm_lnx_lkm: compatibility fix: don't use struct timespec on linux > 4.20.0
+
+................................................................................
+
+version 3.3.5 (2019-12-20)
+
+  - fix: SIGSEGV on write to a write-protected page on Linux v5.3 (amd64, x86)
+    workaround: use write_cr0 from Linux <= v5.2
+
+................................................................................
+
+version 3.3.4 (2018-07-30; v3.3.3 was never publicly released)
+
+  compatibility fixes to make everything compile and run on older Linuxes
+
+  * tdevmon: lowered GLIBC requirements
+  * tdevmon: updated license (the same as ioninja)
+  - dm_lnx_lkm: fix: typedefs.h was not included into the project (and hence,
+    missing from the package)
+  * dm_lnx_lkm: conditional compilation to make it compile with older kernels
+  * dm_lnx_lkm: use explicit #ifdef/#ifndef to avoid warnings on older GCCs
+  * dm_lnx_lkm: removed unnecessary typedefs in HashTable.h
+  * dm_lnx_lkm: a workaround for older GCCs which disallow multiple identical
+    typedefs
+  * dm_app: added rt to the lib list
+  * dm_app: use (utf32_t) cast as to avoid problems on older GCCs
+  * dm_lnx_lkm: don't use multi-char constants (yields warnings on older GCCs)
+  * all: code style changed: removed spaces before opening brackets
+
+................................................................................
+
+version 3.3.2 (2018-12-14)
+
+  introduces: machine interface -- mostly for device monitoring over SSH
+
+  + dm_app: monitor EOF on STDIN (important for SSH connections)
+  + dm_app: added OS/CPU information to the start message, renamed
+    dm_MachineInterface.h -> dm_MachineIface.h
+  * dm_app: turn off stdout buffering in machine-interface mode
+  + dm_app: implemented machine interface on linux
+  + dm_app: added machine interface (output binary to stdout for efficient
+    parsing -- e.g. over SSH)
+  * lkm: replaced flush_tlb_all (not exported on rpi2) -> local_flush_tlb_all
+  * dm_app: use RtlGetVersion whenever possible
+
+................................................................................
+
+version 3.3.1-a for Linux (2018-02-09)
+
+  * fix: use the portable do_div macro instead of 64-bit division (tdevmon.ko
+    couldn't be built on IA-32 due to undefined symbols)
+
+................................................................................
+
+version 3.3.1 (2018-01-25)
+
+  introduces: streaming mode; file name wildcard-based filtering on Linux
+
+  Main devmon console utility changelog:
+
+  - dm_app: fix: properly configure monitor on linux (including the final
+    enable call)
+  + dm_app: added the file name wildcard cmd-line switch on linux
+  - dm_win_lib: fix: reading blobs was inefficient (was starting with 0 bytes
+    -- have to start with something reasonable, e.g. 256)
+  - dm_app: fix: monitor was not initially enabled (it was working due to a bug
+    in the driver -- enable counter was ignored)
+  * dm_app: minor update in output format for file name wildcard
+  * dm_app: updates re the latest kernel-module api changes
+
+  tdevmon driver for Windows changelog:
+
+  - dm_win_sys_core: critical bugfix: removed the leftover KeAcquireSpinLock
+    inside loop in Connection_p_notifyMessage_l
+  + all-drivers: added a debug suffix to all description strings
+  - dm_win_sys_core: fix: partial notifications had incorrect
+    PendingNotify.m_size field; this resulted in garbaged stream and likely
+    an invalid-signature error
+  * dm_win_sys_core: major update: re-write cancellation race protection and
+    prevent notification order races
+  + dm_win: added a dedicated code dm_NotifyCode_DataDropped for data dropped
+    notifications
+  * dm_win_sys_core: removed const modifier from MemBlock* paramBlockArray
+    this is necessary for copyScatterGatherPartial (in streaming mode)
+  + dm_win_sys_cmn: added copyScatterGatherPartial for copying scatter-gather
+    into multiple buffers
+  - dm_win_sys_core: fix: check for m_enableCount before notification
+  - dm_win_sys: bugfix: DM_IOCTL_SET_FILE_NAME_FILTER should check in buffer
+    size, not out buffer size
+  * dm_win_sys: style: use upper-case for types (DDK/WDK-style)
+  - dm_win_sys_core: fixed warning re UINT -> USHORT conversion
+  + whdc: added test-sign script for testing the drivers under win10
+  + dm_win_sys: dm_win_lib: added streaming mode (message mode is still
+    available as an option)
+  * dm_win_sys: changed API a bit -- now pending notify limit and file name
+    filter could be set after connection to a device is established (so it's
+    possible to adjust it on-the-fly)
+
+  tdevmon loadable kernel module for Linux changelog:
+
+  - dm_lnx_lkm: removed redundant trailing '...' from printk's
+  * dm_lnx_lkm: switched the order of fields in dm_IoctlDesc (to make it more
+    convenient to use curly initializers) the old API (via Connect_v0302xx) is
+    still available -- the order of fields is adjusted dynamically
+  + dm_lnx_lkm: added debug printk's on setting the IOCTL desc table
+  + dm_lnx_lkm: added support for FIONREAD
+  + dm_lnx_lkm: ported the new streaming notification model (with partial
+    scatter-gather and postponed read completion) to LKM
+  + dm_lnx_lkm: added dm_NotifyCode_DataDropped
+  + dm_lnx_lkm: added function: copyScatterGatherPartial
+  - dm_lnx_lkm: fix: IOCTL argument should not be size_t; use uint32_t instead
+  + dm_lnx_lkm: streaming mode (message mode is still available as an option)
+  + dm_lnx_lkm: added a bunch of IOCTL codes for post-connect configuration
+  + dm_lnx_lkm: added support for file-name filtering (so it's possible to hook
+    a driver and then receive notifications for all the device it's serving)
+
+................................................................................
+
+version 3.2.5 for Linux (2017-11-24)
+
+  * use different versioning under different platforms; otherwise, we have to
+    force unnecessary upgrades on windows -- even if nothing has changed
+  * dm_lnx_lkm: fix: Makefile did not work on Debian 8.9 due to an improper
+    expansion of $(PWD) from within Linux Kernel build directory; this patch
+    introduces a more reliable solution which should work everywhere
+
+................................................................................
+
+version 3.2.4 for Linux (2017-09-20)
+
+  introduces: ARM support in tdevmon for linux (this release only contains
+  linux-related updates)
+
+  * bugfix: incorrect implementation of stop-hook sequence from the --unhook
+    command (could lead to premature removal of a used hook and consequent
+    undefined behaviour)
+  * implemented write-protection disabling for ARM; tdevmon now runs on our
+    Linux Tibbo Project System ARMv7 boxes
+
+................................................................................
+
+version 3.2.3 (2017-09-14)
+
+  * criticial bugfix: opportunistic BSOD (read beyond the end of a buffer
+    during scatter-gather collection on IRP_MJ_CREATE/IRP_MJ_CREATE_NAMED_PIPE/
+    IRP_MJ_CREATE_MAILSLOT)
+  * fix: self-hooking attempts detection and prevention in tdevmon for Linux
+  * fix: tdevmon --stop-core-service always failed as long as there is at least
+    a single filter device attached
+  * fix: if the core service could not be stopped, MSI would misbehave -- it
+    could failed instead of asking for a reboot or do not ask for reboot at
+    all
+
+................................................................................
+
+version 3.2.2 (2017-08-29)
+
+  introduces: Tibbo Device Monitor for Linux; support for monitoring the FastIO
+  on Windows, dual WHDC signing of Windows drivers with SHA-1 and SHA-256 EV
+  (extended validation) certificates for Windows 10 1607+ compatibility; two
+  critical BSOD fixes
+
+  * file name wildcards can contain multiple \r - separated wildcards; to pass
+    a file name must match at least one wildcard, i.e. using OR logic)
+  * added notifications for FastIoRead/FastIoWrite/FastIoDeviceControl --
+    this is crucial for monitoring the named pipe IO on Windows (otherwise, a
+    substantial part of pipe traffic is unlogged)
+  * improvement: MSI installer should not ask for reboot during upgrade unless
+    that's really necessary -- before it *may* have asked for reboot even when
+    services could be cleanly stopped
+  * fix: IRP_MJ_FILE_SYSTEM_CONTROL file id and data was not properly displayed
+    in tdevmon console utility
+  * critical bugfix: BSOD on METHOD_NEITHER IOCTLs when either IN or OUT buffer
+    is NULL (due to unconditional MmGetSystemAddressForMdlSafe on NULL MDL)
+  * critical bugfix: occasional BSOD crashes during open file notification on
+    IRP_MJ_CREATE/IRP_MJ_CREATE_NAMED_PIPE/IRP_MJ_CREATE_MAILSLOT -- due to
+    invalid usage of FILE_OBJECT::FileName
+  * ported tdevmon console application to Linux
+  * added Linux loadable kernel module (LKM) and usermode library
+  * added scripts for WHDC signing with the new EV certificate
+  * bugfix: a leak in HashTable_remove (entry was removed, but not freed)
+
+................................................................................
+
+version 3.1.4 (2016-12-16)
+
+  * bugfix: added extra cast from FILE_OBJECT* to UINT_PTR -- otherwise, on
+    32-bit machines the higher bits of fileId64 are likely to be ffffffff due
+    to signed-extension
+  * bugfix: %lld implies 64-bit, but the argument was intptr_t -- caused a
+    crash in tdevmon app when monitoring on 32-bit machines
+
+................................................................................
+
+version 3.1.3 (2016-07-14)
+
+  * increase MSI error dialog size and adjust error messages to fit in
+  * print extended error information message when driver signature is rejected.
+    this is quite important because vanilla Windows 7 rejects new SHA-2
+    certificate used to sign our kernel-mode drivers
+  * critical bugfix: MSI installer checked tdevmonc.sys version incorrectly
+    ioninja uses major-minor-revision versioning while windows uses
+    major-minor-build-revision versioning. this resulted in
+    "...installed version appears to be older..." message all the time (even
+    when it's really not)
+
+................................................................................
+
+version 3.1.2 (2016-05-04)
+
+  * --show-sd option doesn't really need KEY_WRITE access
+  * access management:
+    monitor function is now controlled by configurable SD (security descriptor)
+    stored in service parameters regkey; access is checked during
+    IOCTL_DM_CONNECT; default SD allows access for Administrators only; if SD
+    is not found in service parameters regkey or is not valid, then default SD
+    is used.
+  * keyboard & mouse service callbacks moved to tdevmonp.sys
+  * support for IRP_MJ_CREATE_MAILSLOT monitoring
+  * add timestamps to notifications. currently i provide completion timestamps
+    only, but space is reserved for start timestamp as well. start timestamp
+    would require pool allocation on irp start, so im not sure if it's
+    necessary. later i can add it while staying binary-compatible.
+  * don't use FSRTL per-stream contexts cause we didn't test it - npfs.sys does
+    not support it
+
+................................................................................
+
+version 3.1.1 (2016-04-01)
+
+  * replace ULONGLONG m_fileId with UINT_PTR m_fileId while preserving the
+    layout (using unions)
+  * support for IRP_MJ_FILE_SYSTEM_CONTROL (otherwise pipe-mon did not see
+    listen/disconnect requests)
+  * file name filter redesign -- instead of caching *all* file-objects and
+    storing isMatch flag, we now only cache matching file-objects also, file
+    name checks are only done during create/create-named-pipe requests --
+    microsoft states that FILE_OBJECT::FileName is only valid during
+    IRP_MJ_CREATE/IRP_MJ_CREATE_NAMED_PIPE.
+  * HashTable_removeKey should return TRUE/FALSE depending on whether the key
+    was found
+  * neither-method ioctl should also use AssociatedIrp.SystemBuffer for output
+    buffer -- if IRP_BUFFERED_IO is set
+  * support for FSRTL stream contexts
+  * HashTable method renames: remove->removeKey; removeEntry -> remove;
+    find->findValue; findEntry->find
+  * critical bugfix: with NEITHER_IO and IRP_BUFFERED_IO we have to manually
+    copy the buffer from AssociatedIrp.SystemBuffer (which would be done by
+    IopCompleteRequest later, during APC completion)
+  * we should remove file-object from cache also on unsuccessful open/create
+    requests; therefore, it makes sense to rename isClose -> isLastRequest
+  * bugfix: we did not add CacheEntry to cacheMapEntry->m_value (so cache was
+    essentially useless)
+  * bugfix: incorrect setup for dm_ConnectParams
+  * make wildcard string comparison in lowercase
+  * file name wildcard filter
+
+................................................................................
+
+version 3.0.3 (2015-12-24)
+
+  * critical bugfix: BSOD on multiple connections to the same device
+  * critical bugfix: BSOD on race condition during IRP_MJ_READ IRP completion
+    vs cancellation
+  * pending read and pending notify counters
+
+................................................................................
+
+version 3.0.2 (2015-12-21)
+
+  * MSI installer fixes (did not work with UAC on)
+  * check for admin rights before admin-sensitive operations
+  * update removeAllPnpFilters to ignore devices with no physical name
+    (yes, it might happen in win10)
+
+................................................................................
+
+version 3.0.1 (2015-10-03)
+
+  initial release of Tibbo Device Monitor 3

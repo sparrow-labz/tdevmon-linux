@@ -1,0 +1,22 @@
+#...............................................................................
+#
+#  This file is part of Tibbo Device Monitor.
+#  Copyright (c) 2014-2017, Tibbo Technology Inc
+#  Author: Vladimir Gladkov
+#
+#  For legal details see accompanying license.txt file,
+#  the public copy of which is also available at:
+#  http://tibbo.com/downloads/archive/tdevmon/license.txt
+#
+#...............................................................................
+
+set(DEVMON_ROOT_DIR     "@DEVMON_ROOT_DIR@")
+set(DEVMON_INC_DIR      "@DEVMON_ROOT_DIR@/include")
+set(DEVMON_LIB_BASE_DIR "@DEVMON_LIB_BASE_DIR@")
+set(DEVMON_LIB_DIR      "@DEVMON_LIB_BASE_DIR@/${CONFIGURATION}")
+set(DEVMON_BIN_BASE_DIR "@DEVMON_BIN_BASE_DIR@")
+set(DEVMON_BIN_DIR      "@DEVMON_BIN_BASE_DIR@/${CONFIGURATION}")
+
+include(${DEVMON_ROOT_DIR}/version.cmake)
+
+#...............................................................................
