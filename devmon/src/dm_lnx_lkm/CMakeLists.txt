@@ -258,6 +258,7 @@ if(BUILD_DM_LNX_LKM)
 	set(
 		EXTRA_C_FLAGS
 		-fvisibility=hidden
+		-Wno-date-time
 		-Wno-parentheses
 	)
 

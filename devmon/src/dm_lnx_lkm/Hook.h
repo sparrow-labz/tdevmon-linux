@@ -99,7 +99,7 @@ Hook_fop_write(
 	loff_t* offset
 );
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0))
+#ifdef _DM_IOV_ITER
 
 ssize_t
 Hook_fop_read_iter(

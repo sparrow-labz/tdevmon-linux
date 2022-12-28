@@ -24,10 +24,6 @@
 
 #define ASSERT(condition) BUG_ON(!(condition))
 
-#if (((__GNUC__ << 8) | __GNUC_MINOR__) >= 0x0409)
-#	pragma GCC diagnostic ignored "-Wdate-time"
-#endif
-
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 9, 0))
 #	define f_inode f_dentry->d_inode
 #endif
@@ -36,4 +32,8 @@
 #	define devnode_mode_t mode_t
 #else
 #	define devnode_mode_t umode_t
+#endif
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0))
+#	define _DM_IOV_ITER 1
 #endif
