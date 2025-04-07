@@ -1,13 +1,7 @@
 obj-m += ${LKM_NAME}.o
 
 ${LKM_NAME}-objs := ${LKM_OBJS}
-EXTRA_CFLAGS := \
-	-I${CMAKE_CURRENT_LIST_DIR} \
-	-I${DEVMON_INC_DIR} \
-	-I${GEN_DIR} \
-	-fvisibility=hidden \
-	-Wno-date-time \
-	-Wno-parentheses
+EXTRA_CFLAGS := -I${CMAKE_CURRENT_LIST_DIR} -I${DEVMON_INC_DIR} -I${GEN_DIR} -fvisibility=hidden -Wno-parentheses
 
 default: prebuild
 	make -C ${MAKE_BUILD_DIR} M=$(PWD) modules

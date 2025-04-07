@@ -1,7 +1,5 @@
-version 3.3.10 for Linux (2022-12-28)
+version 3.3.10 for Linux (2022-12-15)
 
-  * dm_lnx_lkm: fix write protection removal on ARM with CONFIG_ARM_LPAE on
-    Linux kernels 4.14.3+
   * dm_lnx_lkm: suppress useless warnings that suggest parentheses around binary
     logical operators
   * dm_lnx_lkm: ifdef hooking of read_iter/write_iter to support linux kernels

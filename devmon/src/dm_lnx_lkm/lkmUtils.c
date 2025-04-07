@@ -48,11 +48,7 @@ restoreWriteProtection(
 
 enum {
 #ifdef CONFIG_ARM_LPAE
-#	if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 3))
-	PmdFlag_WpMask     = L_PMD_SECT_RDONLY | PMD_SECT_AP2,
-#	else
 	PmdFlag_WpMask     = L_PMD_SECT_RDONLY,
-#	endif
 	PmdFlag_WpDisabled = 0,
 #else
 	PmdFlag_WpMask     = PMD_SECT_APX | PMD_SECT_AP_WRITE,

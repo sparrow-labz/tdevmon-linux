@@ -714,6 +714,7 @@ monitorDevice(
 
 			if (params.m_readWriteParams->m_dataSize) {
 				printf("\n");
+				printf("Data:");
 				printHexView(
 					params.m_readWriteParams + 1,
 					params.m_readWriteParams->m_dataSize

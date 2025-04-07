@@ -26,21 +26,21 @@ configure_file(
 
 install(
 	FILES import_devmon.cmake
-	DESTINATION ${DEVMON_INSTALL_CMAKE_SUBDIR}
+	DESTINATION DEVMON_INSTALL_CMAKE_SUBDIR=/home/sparrow/tdevmon-linux/build/devmon/bin/Release
 	COMPONENT cmake
 )
 
 install(
 	FILES ${CMAKE_CURRENT_BINARY_DIR}/devmon_config_install.cmake
 	RENAME devmon_config.cmake
-	DESTINATION ${DEVMON_INSTALL_CMAKE_SUBDIR}
+	DESTINATION DEVMON_INSTALL_CMAKE_SUBDIR=/home/sparrow/tdevmon-linux/build/devmon/bin/Release
 	COMPONENT cmake
 )
 
 install(
 	FILES ${DEVMON_ROOT_DIR}/version.cmake
 	RENAME devmon_version.cmake
-	DESTINATION ${DEVMON_INSTALL_CMAKE_SUBDIR}
+	DESTINATION DEVMON_INSTALL_CMAKE_SUBDIR=/home/sparrow/tdevmon-linux/build/devmon/bin/Release
 	COMPONENT cmake
 )
 

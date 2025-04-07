@@ -31,10 +31,8 @@ copyMemBlock(
 	if (flags & MemBlockFlag_UserBuffer)
 		return copy_from_user(dst, src, size) == 0 ? 0 : -EFAULT;
 
-#ifdef _DM_IOV_ITER
 	if (flags & MemBlockFlag_IovIter)
 		return copy_from_iter(dst, size, (struct iov_iter*)src) == size ? 0 : -EFAULT;
-#endif
 
 	memcpy(dst, src, size);
 	return 0;

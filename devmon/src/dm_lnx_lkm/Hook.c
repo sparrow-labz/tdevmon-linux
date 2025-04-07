@@ -57,7 +57,7 @@ Hook_create(
 	if (fops->write)
 		fops->write = Hook_fop_write;
 
-#ifdef _DM_IOV_ITER
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0))
 	if (fops->read_iter)
 		fops->read_iter = Hook_fop_read_iter;
 
@@ -144,7 +144,7 @@ Hook_stop(Hook* self) {
 		self->m_fops->release != Hook_fop_release ||
 		self->m_fops->read && self->m_fops->read != Hook_fop_read ||
 		self->m_fops->write && self->m_fops->write != Hook_fop_write ||
-#ifdef _DM_IOV_ITER
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0))
 		self->m_fops->read_iter && self->m_fops->read_iter != Hook_fop_read_iter ||
 		self->m_fops->write_iter && self->m_fops->write_iter != Hook_fop_write_iter ||
 #endif
@@ -163,7 +163,7 @@ Hook_stop(Hook* self) {
 	self->m_fops->release = self->m_originalFops.release;
 	self->m_fops->read = self->m_originalFops.read;
 	self->m_fops->write = self->m_originalFops.write;
-#ifdef _DM_IOV_ITER
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0))
 	self->m_fops->read_iter = self->m_originalFops.read_iter;
 	self->m_fops->write_iter = self->m_originalFops.write_iter;
 #endif
@@ -436,7 +436,7 @@ Hook_fop_write(
 	return result;
 }
 
-#ifdef _DM_IOV_ITER
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0))
 
 ssize_t
 Hook_fop_read_iter(
@@ -574,7 +574,7 @@ Hook_fop_write_iter(
 	return result;
 }
 
-#endif // _DM_IOV_ITER
+#endif
 
 long
 Hook_fop_unlocked_ioctl(

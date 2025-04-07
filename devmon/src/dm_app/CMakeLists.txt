@@ -173,7 +173,6 @@ elseif(LINUX)
 		axl_io
 		axl_core
 		pthread
-		dl
 		rt
 	)
 endif()

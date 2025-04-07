@@ -111,7 +111,7 @@ list(
 
 install(
 	FILES ${_CORE_H_LIST}
-	DESTINATION ${DEVMON_INSTALL_INC_SUBDIR}
+	DESTINATION DEVMON_INSTALL_CMAKE_SUBDIR=/home/sparrow/tdevmon-linux/build/devmon/bin/Release
 	COMPONENT include
 )
 
@@ -123,13 +123,13 @@ install(
 
 install(
 	DIRECTORY license/
-	DESTINATION ${DEVMON_INSTALL_LICENSE_SUBDIR}
+	DESTINATION DEVMON_INSTALL_CMAKE_SUBDIR=/home/sparrow/tdevmon-linux/build/devmon/bin/Release
 	COMPONENT license
 )
 
 install(
 	FILES changelog.txt
-	DESTINATION ${DEVMON_INSTALL_CHANGELOG_SUBDIR}
+	DESTINATION DEVMON_INSTALL_CMAKE_SUBDIR=/home/sparrow/tdevmon-linux/build/devmon/bin/Release
 	COMPONENT changelog
 )
 

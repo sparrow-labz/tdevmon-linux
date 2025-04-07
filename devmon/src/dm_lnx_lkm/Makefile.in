@@ -13,7 +13,6 @@ endif
 EXTRA_CFLAGS := \
 	-I$(TDEVMON_LKM_DIR)/${DEVMON_INSTALL_LKM_SRC_TO_ROOT}/${DEVMON_INSTALL_INC_SUBDIR} \
 	-fvisibility=hidden \
-	-Wno-date-time \
 	-Wno-parentheses
 
 default:
